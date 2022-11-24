@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System;
 using static CarApi.Models.CarContext;
 using System.Linq;
+using CarApi.Models;
 
 namespace Car.Services
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly ApplicationContext context;
+        private readonly CarContext context;
         private DbSet<T> entities;
         string errorMessage = string.Empty;
-        public Repository(ApplicationContext context)
+        public Repository(CarContext context)
         {
             this.context = context;
             entities = context.Set<T>();

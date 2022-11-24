@@ -31,19 +31,10 @@ namespace WebApplication3
         {
             services.AddDbContext<CarContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("CarItem")));
-            services.AddDbContext<CarContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("CarInfo")));
-            services.AddDbContext<CarContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("Bill")));
-            services.AddDbContext<CarContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("Brand")));
-            services.AddDbContext<CarContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("Customer")));
-            services.AddDbContext<CarContext>(opt =>
-               opt.UseSqlServer(Configuration.GetConnectionString("Employee")));
+            
             // Add framework services.
             services.AddMvc();
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 

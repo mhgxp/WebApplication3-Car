@@ -19,16 +19,17 @@ namespace Car.Controllers
         private IRepository<Employee> repoEmployee;
         private readonly CarContext _context;
 
-        public EmployeesController(CarContext context)
+        public EmployeesController(IRepository<Employee> employeeContext)
         {
-            _context = context;
+            this.repoEmployee= employeeContext;
+
         }
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<IEnumerable<Employee>> GetEmployees()
         {
-            return await _context.Employees.ToListAsync();
+            return repoEmployee.GetAll();
         }
 
         // GET: api/Employees/5

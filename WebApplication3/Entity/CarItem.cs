@@ -1,5 +1,6 @@
 ﻿using Car.Entity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 using System.Timers;
@@ -14,6 +15,10 @@ namespace CarApi.Models
         public bool IsComplete { get; set; }
         public string Secret { get; set; }
         public int CarId { get; set; }
-        public CarInfo CarInfo { get; set; }
+        public virtual ICollection<CarInfo> CarInfos
+        {
+            get;
+            set;
+        }
     }
 }
