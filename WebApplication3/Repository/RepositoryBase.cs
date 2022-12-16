@@ -22,11 +22,11 @@ namespace Car.Services
         {
             return entities.AsEnumerable();
         }
-        public T Get(long id)
+        public T GetDetail(long id)
         {
             return entities.SingleOrDefault(s => s.Id == id);
         }
-        public void Insert(T entity)
+        public void Add(T entity)
         {
             if (entity == null)
             {
@@ -51,6 +51,10 @@ namespace Car.Services
             }
             entities.Remove(entity);
             context.SaveChanges();
+        }
+        public bool Exists(int id)
+        {
+            return entities.Any(e => e.Id == id);
         }
     }
 }

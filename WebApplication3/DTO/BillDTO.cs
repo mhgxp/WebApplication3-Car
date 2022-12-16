@@ -5,7 +5,7 @@ namespace Car.DTO
 {
     public class BillDTO
     {
-        public int BillId { get; set; }
+        public int Id { get; set; }
         public string Price { get; set; }
         public DateTime BuyDate { get; set; }
     }

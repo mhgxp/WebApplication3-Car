@@ -15,100 +15,48 @@ namespace Car.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        
-        private IRepository<Employee> repoEmployee;
-        private readonly CarContext _context;
-
-        public EmployeesController(IRepository<Employee> employeeContext)
+        private IEmployeeService _employeeService;
+        public EmployeesController(IEmployeeService employeeService)
         {
-            this.repoEmployee= employeeContext;
-
+            this._employeeService = employeeService;
         }
-
         // GET: api/Employees
         [HttpGet]
-        public async Task<IEnumerable<Employee>> GetEmployees()
+        public IActionResult GetAll()
         {
-            return repoEmployee.GetAll();
+            try
+            {
+                var allEmployees = _employeeService.GetAll();
+                return Ok(allEmployees);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
         // GET: api/Employees/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public IActionResult GetDetail(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return employee;
+            var employee = _employeeService.GetDetail(id);
+            return Ok(employee);
         }
-
         // PUT: api/Employees/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public IActionResult Update(int id, [FromBody] Employee employee)
         {
-            if (id != employee.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(employee).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Employees
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
-        {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+            _employeeService.Update(id, employee);
+            return Ok();
         }
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(int id)
+        public IActionResult Delete(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
-
-            return employee;
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employees.Any(e => e.Id == id);
+            _employeeService.Delete(id);
+            return Ok();
         }
     }
 }

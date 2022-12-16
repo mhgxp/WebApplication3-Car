@@ -18,5 +18,5 @@ namespace Car.Entity
             get;
             set;
         }
-        }
+    }
 }

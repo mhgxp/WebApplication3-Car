@@ -34,8 +34,9 @@ namespace WebApplication3
             
             // Add framework services.
             services.AddMvc();
-            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            // Add EmployeeService.
+            services.AddScoped<IEmployeeService, EmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

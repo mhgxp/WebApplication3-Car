@@ -2,7 +2,6 @@
 {
     public interface IRepositoryWrapper
     {
-        
         void Save();
     }
 }
