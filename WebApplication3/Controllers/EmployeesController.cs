@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Car.Entity;
 using CarApi.Models;
 using Car.Services;
+using AutoMapper;
 
 namespace Car.Controllers
 {
@@ -19,6 +20,11 @@ namespace Car.Controllers
         public EmployeesController(IEmployeeService employeeService)
         {
             this._employeeService = employeeService;
+        }
+        private readonly IMapper _mapper;
+        public EmployeesController(IMapper mapper)
+        {
+            this._mapper = mapper;
         }
         // GET: api/Employees
         [HttpGet]

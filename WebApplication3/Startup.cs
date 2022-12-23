@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using CarApi.Models;
 using Car.Services;
 using static CarApi.Models.CarContext;
+using AutoMapper;
+using Car.DTO;
 
 namespace WebApplication3
 {
@@ -37,6 +39,10 @@ namespace WebApplication3
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             // Add EmployeeService.
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+            //Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
+            //services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

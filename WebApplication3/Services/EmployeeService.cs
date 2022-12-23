@@ -1,4 +1,6 @@
-﻿using Car.Controllers;
+﻿using AutoMapper;
+using Car.Controllers;
+using Car.DTO;
 using Car.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,21 +14,35 @@ namespace Car.Services
     public class EmployeeService : IEmployeeService
     {
         private IRepository<Employee> repoEmployee;
-        public EmployeeService(IRepository<Employee> employee) 
+        private IMapper mapper;
+        
+        public EmployeeService(IRepository<Employee> employee, IMapper mapper) 
         {
             this.repoEmployee = employee;
+            this.mapper = mapper;
         }
-        public List<Employee> GetAll()
+        public List<EmployeeDTO> GetAll()
         {
-            return repoEmployee.GetAll().ToList();
+            var employees = repoEmployee.GetAll().Select(d => new EmployeeDTO()
+            {
+            Id = d.Id,
+            EmployeeName = d.EmployeeName,
+            EmployeeBirthday = d.EmployeeBirthday,
+            EmployeeAddress = d.EmployeeAddress,
+            EmployeePhoneNumber = d.EmployeePhoneNumber,
+            }).ToList();
+            return employees; 
         }
         public void Add(Employee employee)
         {
             repoEmployee.Add(employee);
         }
-        public Employee GetDetail(long id)
+        public EmployeeDTO GetDetail(long id)
         {
-            return repoEmployee.GetDetail(id);
+           var employee = repoEmployee.GetDetail(id);
+            EmployeeDTO response = mapper.Map<EmployeeDTO>(employee);
+            return response;
+           
         }
         public void Update(int id, Employee employee)
         {
